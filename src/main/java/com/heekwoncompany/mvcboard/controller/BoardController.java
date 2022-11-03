@@ -2,6 +2,8 @@ package com.heekwoncompany.mvcboard.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,16 +15,32 @@ import com.heekwoncompany.mvcboard.command.BListCommand;
 import com.heekwoncompany.mvcboard.command.BModifyCommand;
 import com.heekwoncompany.mvcboard.command.BReplyCommand;
 import com.heekwoncompany.mvcboard.command.BWriteCommand;
+import com.heekwoncompany.mvcboard.dao.BoardDao;
+import com.heekwoncompany.mvcboard.util.Constant;
+
 
 @Controller
 public class BoardController {
 	
 	BCommand command = null;
+	
+	JdbcTemplate template;
+	
+	@Autowired
+	public void setTemplate(JdbcTemplate template) {
+		this.template = template;
+		Constant.template = this.template;
+	}
+
+	
+	
+	
 	@RequestMapping(value="/")
 	public String goList() {
 		
 		return "redirect:list";
 	}
+	
 	
 	@RequestMapping(value="list")
 	public String list(Model model) {
